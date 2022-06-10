@@ -1,0 +1,17 @@
+.profile__userBlock {
+    display: flex;
+}
+.profile__img {
+    height: 150px;
+    width: 150px;
+    border-radius: 20px;
+}
+.profile__userName {
+    font-size: 25px;
+}
+.profile__userInfo {
+    margin: 20px;
+}
+.profile__userContent {
+    margin: 20px;
+}

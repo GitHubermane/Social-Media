@@ -1,0 +1,18 @@
+.CraftForm__input {
+    border-radius: 5px;
+}
+.CraftForm__error {
+    padding: 2px 8px;
+    font-size: 16px;
+    border-radius: 7px;
+    background-color: red;
+    color: #333;
+}
+.CraftForm__summaryEror {
+    background-color: red;
+    padding: 10px 5px;
+    color: #111;
+}
+.CraftForm__blockInput {
+    margin: 5px 0;
+}
