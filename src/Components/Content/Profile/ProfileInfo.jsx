@@ -1,5 +1,7 @@
 import React, { useState } from 'react'
 import { Field, Form } from 'react-final-form'
+import ProfileStyle from './Profile.module.css';
+
 
 export const ProfileInfo = ({ profile, ...props }) => {
     let [profileEditMode, setProfileEditMode] = useState(false)
@@ -18,15 +20,16 @@ export const ProfileInfo = ({ profile, ...props }) => {
         <div>
             {!profileEditMode ?
                 <div>
-                    <ul>
-                        <li>About Me: {profile.aboutMe || 'none'}</li>
-                        <li>Looking for a job: {profile.lookingForAJob}</li>
+                    <ul className={ProfileStyle.profile__ul}>
+                        {profile.aboutMe && <li className={ProfileStyle.profile__li}>About Me: {profile.aboutMe}</li>}
+                        {profile.lookingForAJob && <li className={ProfileStyle.profile__li}>Looking for a job: {profile.lookingForAJob}</li>}
                         {profile.lookingForAJob &&
-                            <li>Looking for a job description: {profile.lookingForAJobDescription}</li>}
-                        <li>Full name: {profile.fullName}</li>
+                            <li className={ProfileStyle.profile__li}>Looking for a job description: {profile.lookingForAJobDescription}</li>}
+                        <li className={ProfileStyle.profile__li}>Full name: {profile.fullName}</li>
                         <ul>Contacts: {Object.keys(profile.contacts).map((obj) => {
                             return (
                                 <li
+                                    className={ProfileStyle.profile__li}
                                     key={obj}>
                                     {obj}: {profile.contacts[obj] || 'none'}
                                 </li>
@@ -35,10 +38,11 @@ export const ProfileInfo = ({ profile, ...props }) => {
                     </ul>
                     <div>
                         {props.isOwner &&
-                        <button
-                            onClick={activateProfileEditMode}>
-                            Change profile info
-                        </button> }
+                            <button
+                                className={ProfileStyle.profile__btn}
+                                onClick={activateProfileEditMode}>
+                                Change profile info
+                            </button>}
                     </div>
                 </div> :
 
@@ -89,7 +93,9 @@ export const ProfileInfo = ({ profile, ...props }) => {
                                     })}
                                 </ul>
                                 <div>
-                                    <button type='submit'>
+                                    <button
+                                        className={ProfileStyle.profile__btn}
+                                        type='submit'>
                                         Save Changes
                                     </button>
                                 </div>

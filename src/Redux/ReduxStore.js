@@ -4,7 +4,7 @@ import profileReducer from './ProfileReducer';
 import messageReducer from './MessageReducer';
 import usersReducer from './UsersReducer';
 import authReducer from './AuthReducer';
-import appReducer from './AppReducer';
+import appReducer from './AppReducer.ts';
 
 let reducers = combineReducers({
     ProfilePage: profileReducer,

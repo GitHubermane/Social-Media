@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import AppStyle from "./App.module.css"
 import { Content } from "./Components/Content/Content";
-import { BrowserRouter } from "react-router-dom";
+import { HashRouter } from "react-router-dom";
 import HeaderContainer from "./Components/Header/HeaderContainer";
-import { initializeApp } from "./Redux/AppReducer"
+import { initializeApp } from "./Redux/AppReducer.ts"
 import { connect } from "react-redux";
 import { Preloader } from "./Components/Commons/Preloader";
 
@@ -16,14 +16,14 @@ class App extends Component {
       return <Preloader/>
     }
     return (
-      <BrowserRouter>
+      <HashRouter>
         <div className={AppStyle.App}>
           <HeaderContainer />
           <Content
             store={this.props.store}
           />
         </div>
-      </BrowserRouter>
+      </HashRouter>
     );
   }
 }

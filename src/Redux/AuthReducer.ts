@@ -3,17 +3,18 @@ import { AuthAPI } from "../API/api";
 const SET_USER_DATA = 'auth/SET_USER_DATA',
     SET_CAPTCHA = 'app/SET_CAPTCHA'
 
-
+    
 let initialState = {
     id: null,
     email: null,
     login: null,
     isAuthorised: false,
     captchaURL: null
-
 }
+    
+type initialStateType = typeof initialState
 
-const authReducer = (state = initialState, action) => {
+const authReducer = (state = initialState, action): initialStateType => {
     switch (action.type) {
 
         case SET_USER_DATA: {
@@ -35,13 +36,27 @@ const authReducer = (state = initialState, action) => {
     }
 }
 
-export const setUserData = (id, email, login, isAuthorised) => ({
+type setUserDataActionDataType = {
+    id: number | null,
+    email: string | null,
+    login: string | null, 
+    isAuthorised: boolean,
+}
+type setUserDataActionType = {
+    type: typeof SET_USER_DATA,
+    data: setUserDataActionDataType
+}
+type setCaptchaType = {
+    type: typeof SET_CAPTCHA,
+    url: string
+}
+export const setUserData = (id: number | null, email: string | null, login: string | null, isAuthorised: boolean): setUserDataActionType => ({
     type: SET_USER_DATA,
     data: { id, email, login, isAuthorised }
 }),
-    setCaptcha = (url) => ({ type: SET_CAPTCHA, url })
+    setCaptcha = (url): setCaptchaType => ({ type: SET_CAPTCHA, url })
 
-export const getAuth = () => (dispatch) => {
+export const getAuth = () => (dispatch: any) => {
     return AuthAPI.getAuth()
         .then(data => {
             if (data.resultCode === 0) {
@@ -50,7 +65,7 @@ export const getAuth = () => (dispatch) => {
             }
         })
 },
-    login = (email, password, rememberMe, captcha) => (dispatch) => {
+    login = (email, password, rememberMe, captcha) => (dispatch: any) => {
         AuthAPI.login(email, password, rememberMe, captcha)
             .then(data => {
                 if (data.resultCode === 0) {
@@ -59,7 +74,7 @@ export const getAuth = () => (dispatch) => {
 
             })
     },
-    logout = () => (dispatch) => {
+    logout = () => (dispatch: any) => {
         AuthAPI.logout()
             .then(data => {
                 if (data.resultCode === 0) {
@@ -68,7 +83,7 @@ export const getAuth = () => (dispatch) => {
 
             })
     },
-    getCaptcha = () => (dispatch) => {
+    getCaptcha = () => (dispatch: any) => {
         AuthAPI.getCaptcha()
             .then((data) => {
                 dispatch(setCaptcha(data.url))

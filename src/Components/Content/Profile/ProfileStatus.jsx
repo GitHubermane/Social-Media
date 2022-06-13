@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from 'react'
+import ProfileStyle from './Profile.module.css';
+
 
 export const ProfileStatus = (props) => {
   let [editMode, setEitMode] = useState(false),
@@ -29,6 +31,7 @@ export const ProfileStatus = (props) => {
           value={status}
         /> :
         <div
+          className={ProfileStyle.profile__status}
           onDoubleClick={() => activate()}
         >
           {status}

@@ -39,3 +39,21 @@
     border-radius: 50%;
     position: relative;
 }
+.header__logout {
+    padding: 5px 8px;
+    margin: 0 0 0 10px;
+    color: rgb(201, 23, 23);
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    background-color: rgb(49, 6, 6);
+    border-radius: 10px;
+    border: none;
+    transition: all 0.2s;
+}
+
+.header__logout:hover {
+    color: rgb(235, 4, 4);
+    background-color: rgb(112, 12, 12);
+    transition: all 0.2s;
+}

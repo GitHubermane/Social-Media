@@ -1,7 +1,7 @@
 import React from 'react';
 import { Posts } from './Posts/Posts';
 import ProfileStyle from './Profile.module.css';
-import { Preloader } from './../../Commons/Preloader'
+import { Preloader } from '../../Commons/Preloader'
 import { ProfileStatus } from './ProfileStatus';
 import { Field, Form } from 'react-final-form';
 import { required, maxLengthCreator } from '../../Utils/Validators'
@@ -32,12 +32,12 @@ export const Profile = (props) => {
     <div className={ProfileStyle.profile}>
       <div className={ProfileStyle.profile__body}>
         <div className={ProfileStyle.profile__userBlock}>
-          <img className={ProfileStyle.profile__img}
+          <img
+            className={ProfileStyle.profile__img}
             src={!props.profile.photos.large ?
               "https://flyclipart.com/thumb2/user-icon-png-pnglogocom-133466.png" :
               props.profile.photos.large
-            }
-            alt="" />
+            }/>
           <div className={ProfileStyle.profile__userContent}>
             <h1 className={ProfileStyle.profile__userName}>
               {props.profile.fullName}
@@ -53,7 +53,7 @@ export const Profile = (props) => {
             />
 
             {/* Временно */}
-            {!props.isOwner && 
+            {!props.isOwner &&
               <Form
                 onSubmit={onSendMessage}
                 render={({ handleSubmit }) => (
@@ -70,12 +70,17 @@ export const Profile = (props) => {
                     </button>
                   </form>
                 )}
-              /> 
+              />
             }
 
           </div>
         </div>
-        {props.isOwner && <input type="file" onChange={onPhotoSelect} />}
+        {props.isOwner &&
+          <input
+            id="file-upload"
+            className={ProfileStyle.photoInput}
+            type="file"
+            onChange={onPhotoSelect} />}
         {props.isOwner &&
           <div>
             <PostForm {...props} />
@@ -107,7 +112,9 @@ const PostForm = (props) => {
               validate={composeValidators(required, maxLengthCreator(10))}
             />
           </div>
-          <button type='submit'>
+          <button
+            className={ProfileStyle.profile__btn}
+            type='submit'>
             Post
           </button>
         </form>
