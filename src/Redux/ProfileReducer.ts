@@ -1,21 +1,25 @@
 import { ProfileAPI } from "../API/api";
+import { photosType, PostDataType, profileType } from "../Types/types";
 
 const ADD_NEW_POST = 'profile/ADD_NEW_POST',
     SET_PROFILE_PAGE = 'profile/SET_PROFILE_PAGE',
     SET_STATUS = 'profile/SET_STATUS',
     SET_PHOTO = 'profile/SET_PHOTO'
 
+type initialStateType = typeof initialState
+
 let initialState = {
     PostData: [
-        { id: 1, likes: "23", text: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Hic, atque!" },
-        { id: 2, likes: "10", text: "Lorem ipsum dolor, sit amet  elit. Hic, atque!" },
-        { id: 3, likes: "53", text: "Lorem ipsum 2, sit amet 4 elit. Hic, atque!" },
-    ],
-    profile: null,
+        { id: 1, likes: 23, text: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Hic, atque!" },
+        { id: 2, likes: 10, text: "Lorem ipsum dolor, sit amet  elit. Hic, atque!" },
+        { id: 3, likes: 53, text: "Lorem ipsum 2, sit amet 4 elit. Hic, atque!" },
+    ] as Array<PostDataType>,
+    profile: null as profileType | null,
+    postNewText: '',
     status: '',
 }
 let idCount = 4;
-const profileReducer = (state = initialState, action) => {
+const profileReducer = (state = initialState, action: any): initialStateType => {
     switch (action.type) {
         case ADD_NEW_POST: {
             let newPost = {
@@ -54,26 +58,41 @@ const profileReducer = (state = initialState, action) => {
                 profile: {
                     ...state.profile,
                     photos: action.photo
-                }
+                } as profileType
             };
         }
         default:
             return state;
     }
 }
+type addPostType = {
+    type: typeof ADD_NEW_POST,
+    postNewText: string
+}
+type setProfileType = {
+    type: typeof SET_PROFILE_PAGE,
+    profile: profileType
+}
+type setStatusType = {
+    type: typeof SET_STATUS,
+    status: string
+}
+type setPhotoType = {
+    type: typeof SET_PHOTO,
+    photo: photosType
+}
+export const addPost = (postNewText): addPostType => ({ type: ADD_NEW_POST, postNewText }),
+    setProfile = (profile): setProfileType => ({ type: SET_PROFILE_PAGE, profile }),
+    setStatus = (status): setStatusType => ({ type: SET_STATUS, status }),
+    setPhoto = (photo): setPhotoType => ({ type: SET_PHOTO, photo })
 
-export const addPost = (postNewText) => ({ type: ADD_NEW_POST, postNewText }),
-    setProfile = (profile) => ({ type: SET_PROFILE_PAGE, profile }),
-    setStatus = (status) => ({ type: SET_STATUS, status }),
-    setPhoto = (photo) => ({ type: SET_PHOTO, photo })
-
-export const getUserId = (userId) => (dispatch) => {
+export const getUserId = (userId: number) => (dispatch) => {
     ProfileAPI.getUserId(userId)
         .then(data => {
             dispatch(setProfile(data))
         })
 },
-    getUserStatus = (userId) => (dispatch) => {
+    getUserStatus = (userId: number) => (dispatch) => {
         ProfileAPI.getStatus(userId)
             .then(data => {
                 dispatch(setStatus(data))

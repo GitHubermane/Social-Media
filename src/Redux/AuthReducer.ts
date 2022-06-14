@@ -3,6 +3,7 @@ import { AuthAPI } from "../API/api";
 const SET_USER_DATA = 'auth/SET_USER_DATA',
     SET_CAPTCHA = 'app/SET_CAPTCHA'
 
+type initialStateType = typeof initialState
     
 let initialState = {
     id: null,
@@ -12,8 +13,6 @@ let initialState = {
     captchaURL: null
 }
     
-type initialStateType = typeof initialState
-
 const authReducer = (state = initialState, action): initialStateType => {
     switch (action.type) {
 
