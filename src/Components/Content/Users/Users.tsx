@@ -1,8 +1,19 @@
-import React from 'react';
+import { UsersDataType } from '../../../Types/ReducersTypes';
 import { Paginator } from './Paginator/Paginator';
 import { User } from './User/User';
 
-export const Users = (props) => {
+type propsType = {
+  UsersData: Array<UsersDataType>
+  totalUsersCount: number
+  usersCount: number
+  currentPageNumber: number
+  onPageChange: (pageNum: number) => void
+  followingInProgress: Array<number>
+  unfollow: (userId: number) => void
+  follow: (userId: number) => void
+
+}
+export const Users: React.FC<propsType> = (props) => {
 
   return (
     <div>

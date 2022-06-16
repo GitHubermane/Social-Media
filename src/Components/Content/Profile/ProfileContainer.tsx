@@ -3,26 +3,47 @@ import { connect } from 'react-redux'
 import { compose } from 'redux';
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import {
-  addPost, setProfile, getUserId,
+  addPost, getUserId,
   getUserStatus, updateUserStatus, savePhoto,
   updateInfo
-} from '../../../Redux/ProfileReducer'
-import { sendMessage, showMessages, startChatting } from '../../../Redux/MessageReducer'
+} from '../../../Redux/ProfileReducer.ts'
+import { sendMessage, startChatting } from '../../../Redux/MessageReducer.ts'
 import { Profile } from './Profile';
 import {
   getId, getMessagesData, getPostData,
   getPostNewText, getProfile, getStatus
 } from '../../../Redux/Selectors';
+import { MessagesDataType, PostDataType, profileType } from '../../../Types/ReducersTypes';
 
+type mapStateToPropsType = {
+  postData: PostDataType
+  postNewText: string
+  profile: profileType
+  status: string
+  selfId: number
+  MessagesData: MessagesDataType
+}
+type mapDispatchToPropsType = {
+  addPost: (postText: string) => void
+  getUserId: (userId: number) => void
+  getUserStatus: (userId: number) => void
+  updateUserStatus: (status: string) => void
+  savePhoto: (photo: any) => void
+  updateInfo: (profileInfo: profileType) => void
+  sendMessage: (message: string) => void
+  startChatting: (userId: number) => void
+}
 
-class ProfileAPI extends React.Component {
+type propsType = mapStateToPropsType & mapDispatchToPropsType
+
+class ProfileAPI extends React.Component<propsType> {
   componentDidMount() {
     let userId = this.props.router.params.userId;
     this.props.getUserId(userId)
     this.props.getUserStatus(userId)
     this.props.startChatting(userId)
-    this.props.showMessages(userId)
   }
+
   componentDidUpdate(prevProps) {
     let userId = this.props.router.params.userId;
     if (this.props.router.params.userId != prevProps.router.params.userId) {
@@ -75,9 +96,9 @@ let mapStateToProps = (state) => {
 
 export default compose(
   connect(mapStateToProps, {
-    addPost, setProfile, getUserId,
-    getUserStatus, updateUserStatus, savePhoto,
-    updateInfo, sendMessage, showMessages, startChatting
+    addPost, getUserId, getUserStatus,
+    updateUserStatus, savePhoto, updateInfo,
+    sendMessage, startChatting
   }),
   withRouter,
 )(ProfileAPI)

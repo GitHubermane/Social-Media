@@ -1,9 +1,14 @@
 import React, { useState } from 'react'
 import { Field, Form } from 'react-final-form'
+import { profileType } from '../../../Types/ReducersTypes';
 import ProfileStyle from './Profile.module.css';
 
-
-export const ProfileInfo = ({ profile, ...props }) => {
+type propsType = {
+    profile: profileType
+    isOwner: boolean
+    updateInfo: (info: any) => void
+}
+export const ProfileInfo: React.FC<propsType> = ({ profile, ...props }) => {
     let [profileEditMode, setProfileEditMode] = useState(false)
     const activateProfileEditMode = () => {
         setProfileEditMode(true)
@@ -12,7 +17,6 @@ export const ProfileInfo = ({ profile, ...props }) => {
         setProfileEditMode(false)
     }
     const onProfileInfoSubmit = (e) => {
-        console.log(e);
         props.updateInfo(e);
         deactivateProfileEditMode()
     }

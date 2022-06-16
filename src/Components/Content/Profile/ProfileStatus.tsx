@@ -1,8 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import ProfileStyle from './Profile.module.css';
 
-
-export const ProfileStatus = (props) => {
+type propsType = {
+  updateUserStatus: (status: string) => void
+  status: string 
+  isOwner: boolean
+}
+export const ProfileStatus: React.FC<propsType> = (props) => {
   let [editMode, setEitMode] = useState(false),
     [status, setStatus] = useState(props.status)
 

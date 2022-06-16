@@ -1,5 +1,5 @@
 import { MessageAPI } from "../API/api";
-import { MessagesDataType, UserMessageDataType } from "../Types/types";
+import { MessagesDataType, UserMessageDataType } from "../Types/ReducersTypes";
 
 const SET_MESSAGE = 'message/SEND-MESSAGE',
     SET_DIALOGS = 'message/SET_DIALOGS'

@@ -2,13 +2,20 @@ import React from 'react'
 import { Field, Form } from 'react-final-form'
 import { connect } from 'react-redux'
 import { Navigate } from 'react-router-dom'
-import { login, getAuth, getCaptcha } from '../../../Redux/AuthReducer'
+import { login, getAuth, getCaptcha } from '../../../Redux/AuthReducer.ts'
 import { Input } from '../../Commons/CraftForms'
-import { maxLengthCreator, required } from '../../Utils/Validators'
+import { required } from '../../Utils/Validators'
 import CraftFormsStyle from './../../Commons/CraftForms.module.css'
 
-
-const Login = (props) => {
+type propsType = {
+  captchaURL: string
+  getAuth: () => void
+  getCaptcha: () => void
+  id: null | number
+  isAuthorised: boolean
+  login: () => void
+}
+const Login: React.FC<propsType> = (props) => {
   if (props.isAuthorised) {
     return (
       <Navigate to={`/profile/${props.id}`} />

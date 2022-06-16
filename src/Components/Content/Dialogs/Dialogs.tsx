@@ -1,10 +1,16 @@
 import React from 'react';
 import { Field, Form } from 'react-final-form';
+import { MessagesDataType, UserMessageDataType } from '../../../Types/ReducersTypes';
 import DialogsStyle from './Dialogs.module.css';
 import { Messages } from './Messages/Messages';
 import { Users } from './Users/Users';
 
-export const Dialogs = (props) => {
+type propsType = {
+  UserMessageData: UserMessageDataType
+  messagesData: MessagesDataType
+  sendMessage: (message: string) => void
+}
+export const Dialogs: React.FC<propsType> = (props) => {
   let UserChatElement = props.UserMessageData.map(
     dialog => <Users
       id={dialog.id}
@@ -32,7 +38,7 @@ export const Dialogs = (props) => {
 
 
 export const MessageForm = (props) => {
-  let onSendMessageClick = (messageText) => {
+  let onSendMessageClick = (messageText: any) => {
     props.sendMessage(messageText.Message)
     messageText.Message = ''
   }

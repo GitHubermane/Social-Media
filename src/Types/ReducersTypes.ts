@@ -19,6 +19,7 @@ export type profileType = {
     fullName: string
     contacts: contactsType
     photos: photosType
+    aboutMe?: string
 }
 export type contactsType = {
     github: string

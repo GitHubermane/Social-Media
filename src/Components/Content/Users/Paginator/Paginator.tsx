@@ -1,9 +1,15 @@
 import React, { useState } from 'react'
 import PaginatorStyle from './Paginator.module.css'
 
-export const Paginator = ({ totalUsersCount, usersCount, currentPageNumber, onPageChange }) => {
+type propsType = {
+    totalUsersCount: number
+    usersCount: number
+    currentPageNumber: number
+    onPageChange: (pageNum: number) => void
+}
+export const Paginator: React.FC<propsType> = ({ totalUsersCount, usersCount, currentPageNumber, onPageChange }) => {
     let pagesCount = Math.ceil(totalUsersCount / usersCount),
-        pages = [];
+        pages: Array<number> = [];
     for (let i = 1; i <= pagesCount; i++) {
         pages.push(i)
     }
@@ -41,7 +47,8 @@ export const Paginator = ({ totalUsersCount, usersCount, currentPageNumber, onPa
                     onClick={() => {
                         setPortionNumber(portionNumber + 1)
                     }}>
-                    Next</button>}
+                    Next
+                </button>}
         </div>
     )
 }

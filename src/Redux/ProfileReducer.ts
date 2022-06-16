@@ -1,5 +1,5 @@
 import { ProfileAPI } from "../API/api";
-import { photosType, PostDataType, profileType } from "../Types/types";
+import { photosType, PostDataType, profileType } from "../Types/ReducersTypes";
 
 const ADD_NEW_POST = 'profile/ADD_NEW_POST',
     SET_PROFILE_PAGE = 'profile/SET_PROFILE_PAGE',

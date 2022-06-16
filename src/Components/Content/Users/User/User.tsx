@@ -1,8 +1,15 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom'
+import { UsersDataType } from '../../../../Types/ReducersTypes'
 import UserStyle from './User.module.css'
 
-export const User = ({ user, followingInProgress, unfollow, follow }) => {
+type propsType = {
+    user: UsersDataType
+    followingInProgress: Array<number>
+    unfollow: (userId: number) => void
+    follow: (userId: number) => void
+}
+export const User: React.FC<propsType> = ({ user, followingInProgress, unfollow, follow }) => {
     return (
         <div
             className={UserStyle.User__body}

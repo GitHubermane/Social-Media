@@ -1,11 +1,22 @@
 import React from 'react';
-import { getDialogs, sendMessage } from '../../../Redux/MessageReducer'
+import { getDialogs, sendMessage } from '../../../Redux/MessageReducer.ts'
 import { Dialogs } from './Dialogs';
 import { connect } from 'react-redux'
 import { withAuthRedirect } from '../../HOC/AuthRedirect';
 import { compose } from 'redux';
+import { MessagesDataType, UserMessageDataType } from '../../../Types/ReducersTypes';
 
-class DialogsContainer extends React.Component {
+type mapStateToPropsType = {
+  UserMessageData: UserMessageDataType
+  messagesData: MessagesDataType
+}
+type mapDispatchToPropsType = {
+  getDialogs: () => void
+  sendMessage: (message: string) => void
+}
+type propsType = mapStateToPropsType & mapDispatchToPropsType
+
+class DialogsContainer extends React.Component<propsType> {
   componentDidMount() {
     this.props.getDialogs()
   }

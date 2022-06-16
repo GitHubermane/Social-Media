@@ -7,11 +7,33 @@ import { Field, Form } from 'react-final-form';
 import { required, maxLengthCreator } from '../../Utils/Validators'
 import { Input, TextArea } from '../../Commons/CraftForms';
 import { ProfileInfo } from './ProfileInfo';
+import { MessagesDataType, PostDataType, profileType } from '../../../Types/ReducersTypes';
 
-export const Profile = (props) => {
+type propsType = {
+  postData: PostDataType
+  postNewText: string
+  profile: profileType
+  status: string
+  selfId: number
+  MessagesData: MessagesDataType
+  isOwner: boolean
+  addPost: (postText: string) => void
+  getUserId: (userId: number) => void
+  getUserStatus: (userId: number) => void
+  updateUserStatus: (status: string) => void
+  savePhoto: (photo: any) => void
+  updateInfo: (profileInfo: profileType) => void
+  sendMessage: (userId: number, message: string) => void
+  startChatting: (userId: number) => void
+}
+
+export const Profile: React.FC<propsType> = (props) => {
   let postElements = props.postData.map(
     post => <Posts
-      profile={props.profile}
+      photo={props.profile?
+        props.profile.photos.large:
+        "https://flyclipart.com/thumb2/user-icon-png-pnglogocom-133466.png"
+      }
       id={post.id}
       key={post.id}
       likes={post.likes}
@@ -77,7 +99,6 @@ export const Profile = (props) => {
         </div>
         {props.isOwner &&
           <input
-            id="file-upload"
             className={ProfileStyle.photoInput}
             type="file"
             onChange={onPhotoSelect} />}
