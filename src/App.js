@@ -3,7 +3,7 @@ import AppStyle from "./App.module.css"
 import { Content } from "./Components/Content/Content";
 import { HashRouter } from "react-router-dom";
 import HeaderContainer from "./Components/Header/HeaderContainer";
-import { initializeApp } from "./Redux/AppReducer.ts"
+import { initializeApp } from "./Redux/AppReducer"
 import { connect } from "react-redux";
 import { Preloader } from "./Components/Commons/Preloader";
 

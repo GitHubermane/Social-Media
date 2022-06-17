@@ -42,3 +42,9 @@ export type UsersDataType = {
     photos: photosType
     followed: boolean
 }
+export type setUserDataActionDataType = {
+    id: number | null,
+    email: string | null,
+    login: string | null,
+    isAuthorised?: boolean,
+}

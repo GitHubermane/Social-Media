@@ -6,8 +6,8 @@ import {
   addPost, getUserId,
   getUserStatus, updateUserStatus, savePhoto,
   updateInfo
-} from '../../../Redux/ProfileReducer.ts'
-import { sendMessage, startChatting } from '../../../Redux/MessageReducer.ts'
+} from '../../../Redux/ProfileReducer'
+import { sendMessage, startChatting } from '../../../Redux/MessageReducer'
 import { Profile } from './Profile';
 import {
   getId, getMessagesData, getPostData,

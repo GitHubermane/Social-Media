@@ -1,5 +1,7 @@
+import { Dispatch } from "redux";
 import { ProfileAPI } from "../API/api";
 import { photosType, PostDataType, profileType } from "../Types/ReducersTypes";
+import { appStateType } from "./ReduxStore";
 
 const ADD_NEW_POST = 'profile/ADD_NEW_POST',
     SET_PROFILE_PAGE = 'profile/SET_PROFILE_PAGE',
@@ -65,6 +67,10 @@ const profileReducer = (state = initialState, action: any): initialStateType => 
             return state;
     }
 }
+type actionsType = addPostType |
+    setProfileType |
+    setStatusType |
+    setPhotoType
 type addPostType = {
     type: typeof ADD_NEW_POST,
     postNewText: string
@@ -81,47 +87,40 @@ type setPhotoType = {
     type: typeof SET_PHOTO,
     photo: photosType
 }
-export const addPost = (postNewText): addPostType => ({ type: ADD_NEW_POST, postNewText }),
-    setProfile = (profile): setProfileType => ({ type: SET_PROFILE_PAGE, profile }),
-    setStatus = (status): setStatusType => ({ type: SET_STATUS, status }),
-    setPhoto = (photo): setPhotoType => ({ type: SET_PHOTO, photo })
 
-export const getUserId = (userId: number) => (dispatch) => {
-    ProfileAPI.getUserId(userId)
-        .then(data => {
-            dispatch(setProfile(data))
-        })
+export const addPost = (postNewText: string): addPostType => ({ type: ADD_NEW_POST, postNewText }),
+    setProfile = (profile: profileType): setProfileType => ({ type: SET_PROFILE_PAGE, profile }),
+    setStatus = (status: string): setStatusType => ({ type: SET_STATUS, status }),
+    setPhoto = (photo: photosType): setPhotoType => ({ type: SET_PHOTO, photo })
+
+type thunkType = Dispatch<actionsType>
+
+export const getUserId = (userId: number) => async (dispatch: thunkType, getState: appStateType) => {
+    let data = await (ProfileAPI.getUserId(userId))
+    dispatch(setProfile(data))
 },
-    getUserStatus = (userId: number) => (dispatch) => {
-        ProfileAPI.getStatus(userId)
-            .then(data => {
-                dispatch(setStatus(data))
-            })
+    getUserStatus = (userId: number) => async (dispatch: thunkType, getState: appStateType) => {
+        let data = await (ProfileAPI.getStatus(userId))
+        dispatch(setStatus(data))
     },
-    updateUserStatus = (status) => (dispatch) => {
-        ProfileAPI.updateStatus(status)
-            .then(data => {
-                if (data.resultCode === 0) {
-                    dispatch(setStatus(status))
-                }
-            })
+    updateUserStatus = (status: string) => async (dispatch: thunkType, getState: appStateType) => {
+        let data = await (ProfileAPI.updateStatus(status))
+        if (data.resultCode === 0) {
+            dispatch(setStatus(status))
+        }
     },
-    savePhoto = (photo) => (dispatch) => {
-        ProfileAPI.updatePhoto(photo)
-            .then(data => {
-                if (data.resultCode === 0) {
-                    dispatch(setPhoto(data.data.photos))
-                }
-            })
+    savePhoto = (photo: string | Blob) => async (dispatch: thunkType, getState: appStateType) => {
+        let data = await (ProfileAPI.updatePhoto(photo))
+        if (data.resultCode === 0) {
+            dispatch(setPhoto(data.data.photos))
+        }
     },
-    updateInfo = (profile) => (dispatch, getState) => {
+    updateInfo = (profile: profileType) => async (dispatch: thunkType, getState: appStateType) => {
         const userId = getState().Auth.id
-        ProfileAPI.updateInfo(profile)
-            .then(data => {
-                if (data.resultCode === 0) {
-                    dispatch(getUserId(userId))
-                }
-            })
+        let data = await (ProfileAPI.updateInfo(profile))
+        if (data.resultCode === 0) {
+            dispatch(getUserId(userId))
+        }
     }
 
 

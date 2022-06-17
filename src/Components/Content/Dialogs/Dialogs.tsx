@@ -37,7 +37,7 @@ export const Dialogs: React.FC<propsType> = (props) => {
 }
 
 
-export const MessageForm = (props) => {
+export const MessageForm = (props: propsType) => {
   let onSendMessageClick = (messageText: any) => {
     props.sendMessage(messageText.Message)
     messageText.Message = ''

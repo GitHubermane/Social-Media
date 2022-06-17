@@ -1,5 +1,5 @@
 import React from 'react';
-import { setUserData, getAuth, logout } from '../../Redux/AuthReducer.ts';
+import { setUserData, getAuth, logout } from '../../Redux/AuthReducer';
 import { connect } from 'react-redux';
 import { Header } from './Header';
 import { compose } from 'redux';

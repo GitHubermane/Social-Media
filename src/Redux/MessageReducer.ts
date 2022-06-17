@@ -1,5 +1,7 @@
+import { Dispatch } from "redux";
 import { MessageAPI } from "../API/api";
 import { MessagesDataType, UserMessageDataType } from "../Types/ReducersTypes";
+import { appStateType } from "./ReduxStore";
 
 const SET_MESSAGE = 'message/SEND-MESSAGE',
     SET_DIALOGS = 'message/SET_DIALOGS'
@@ -24,7 +26,7 @@ let initialState = {
 }
 
 let idCount = 5
-const messageReducer = (state = initialState, action): initialStateType => {
+const messageReducer = (state = initialState, action: actionsType): initialStateType => {
     switch (action.type) {
 
         case SET_MESSAGE: {
@@ -50,7 +52,7 @@ const messageReducer = (state = initialState, action): initialStateType => {
             return state;
     }
 }
-
+type actionsType = setMessageActionType | setDialogsActionType
 type setMessageActionType = {
     type: typeof SET_MESSAGE,
     messageNewText: string
@@ -59,36 +61,31 @@ type setDialogsActionType = {
     type: typeof SET_DIALOGS,
     dialogs: any
 }
-export const setMessage = (messageNewText): setMessageActionType => ({ type: SET_MESSAGE, messageNewText }),
-    setDialogs = (dialogs): setDialogsActionType => ({ type: SET_DIALOGS, dialogs })
 
-export const getDialogs = () => (dispatch) => {
-    MessageAPI.getDialogs()
-        .then(data => {
-            dispatch(setDialogs(data))
-        })
+export const setMessage = (messageNewText: string): setMessageActionType => ({ type: SET_MESSAGE, messageNewText }),
+    setDialogs = (dialogs: any): setDialogsActionType => ({ type: SET_DIALOGS, dialogs })
+
+type thunkType = Dispatch<actionsType>
+
+export const getDialogs = () => async (dispatch: thunkType, getState: appStateType) => {
+    let data = await (MessageAPI.getDialogs())
+    dispatch(setDialogs(data))
 },
-    sendMessage = (userId, message) => (dispatch) => {
-        MessageAPI.sendMessage(userId, message)
-            .then(data => {
-                if (data.resultCode === 0) {
-                    dispatch(setMessage(message))
-                }
-            })
+    sendMessage = (userId: number, message: string) => async (dispatch: thunkType, getState: appStateType) => {
+        let data = await (MessageAPI.sendMessage(userId, message))
+        if (data.resultCode === 0) {
+            dispatch(setMessage(message))
+        }
     },
-    showMessages = (userId) => (dispatch) => {
-        MessageAPI.showMessages(userId)
-            .then(data => {
-                if (data.resultCode === 0) {
-                    dispatch(setMessage(data))
-                }
-            })
+    showMessages = (userId: number) => async (dispatch: thunkType, getState: appStateType) => {
+        let data = await (MessageAPI.showMessages(userId))
+        if (data.resultCode === 0) {
+            dispatch(setMessage(data))
+        }
     },
-    startChatting = (userId) => (dispatch) => {
-        MessageAPI.startChatting(userId)
-            .then(data => {
-                console.log(data);
-            })
+    startChatting = (userId: number) => async (dispatch: thunkType, getState: appStateType) => {
+        let data = await (MessageAPI.startChatting(userId))
+        console.log(data);
     }
 
 export default messageReducer;

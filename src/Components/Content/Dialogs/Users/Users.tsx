@@ -6,7 +6,7 @@ type propsType = {
   id: number
   name: string
 }
-export const Users = (props) => {
+export const Users: React.FC<propsType> = (props) => {
   return (
     <NavLink to={`${props.id}`} className={UsersStyle.user__item}>
       {props.name}
