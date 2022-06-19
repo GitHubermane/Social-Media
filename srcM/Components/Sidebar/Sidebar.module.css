@@ -1,0 +1,21 @@
+.sidebar__body {
+    margin: 20px 0 0 0;
+}
+.sidebar__nav {
+    padding: 0;
+    margin: 0;  
+}
+.sidebar__li {
+    list-style: none;
+    margin: 12px 0 ;
+}
+.sidebar__link {
+    text-decoration: none;
+    color: #000;
+    font-weight: 500;
+    padding: 5px;
+    border-radius: 7px;
+}
+.sidebar__link:hover {
+    background-color: #fff;
+}

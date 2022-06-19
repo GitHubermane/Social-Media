@@ -1,0 +1,38 @@
+.selectedPage {
+    padding: 0 4px;
+    font-weight: 600;
+    font-size: 18px;
+}
+
+.normalPage {
+    cursor: pointer;
+    padding: 0 2px;
+    font-weight: 400;
+    font-size: 16px;
+}
+.ArrowButton {
+    position: relative;
+    background-color:rgba(0, 0, 0, 0);
+    border: none;
+}
+
+.Arrow,
+.Arrow:after {
+    border-radius: 1px;
+    height: 2px;
+    width: 11px;
+    background-color: #fff;
+    position: absolute;
+}
+.Arrow {
+    bottom: 10px;
+    transform: rotate(45deg);
+}
+.Arrow:after {
+    content: '';
+    top: 5px;
+    left: 5px;
+    transform: rotate(90deg);
+}
+.ArrowRev {
+    transform: rotate(225deg);}
