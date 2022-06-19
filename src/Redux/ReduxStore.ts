@@ -1,5 +1,5 @@
-import { applyMiddleware, combineReducers, createStore } from 'redux';
-import thunkMiddleWare from 'redux-thunk'
+import { Action, applyMiddleware, combineReducers, createStore } from 'redux';
+import thunkMiddleWare, { ThunkAction } from 'redux-thunk'
 import profileReducer from './ProfileReducer';
 import messageReducer from './MessageReducer';
 import usersReducer from './UsersReducer';
@@ -16,6 +16,10 @@ let rootReducer = combineReducers({
     Auth: authReducer,
     App: appReducer,
 });
+
+export type baseThunkType<A extends Action, R = Promise<void>> = ThunkAction<R, appStateType, unknown, A>
+
+export type inferActionsType<T> = T extends { [keys: string]: (...args: any[]) => infer U } ? U : never
 
 let store = createStore(rootReducer, applyMiddleware(thunkMiddleWare));
 //@ts-ignore

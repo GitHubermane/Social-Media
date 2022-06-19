@@ -32,8 +32,8 @@ export type contactsType = {
     mainLink: string
 }
 export type photosType = {
-    large: string | null
     small: string | null
+    large: string | null
 }
 export type UsersDataType = {
     id: number,
