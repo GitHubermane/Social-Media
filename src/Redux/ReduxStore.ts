@@ -21,6 +21,7 @@ export type baseThunkType<A extends Action, R = Promise<void>> = ThunkAction<R, 
 
 export type inferActionsType<T> = T extends { [keys: string]: (...args: any[]) => infer U } ? U : never
 
+export type storeType = typeof store
 let store = createStore(rootReducer, applyMiddleware(thunkMiddleWare));
 //@ts-ignore
 window.store = store

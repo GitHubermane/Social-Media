@@ -1,6 +1,7 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom'
 import { UsersDataType } from '../../../../Types/ReducersTypes'
+//@ts-ignore
 import UserStyle from './User.module.css'
 
 type propsType = {

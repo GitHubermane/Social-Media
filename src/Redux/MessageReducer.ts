@@ -70,10 +70,10 @@ export const getDialogs = (): thunkType => async (dispatch) => {
         if (data.resultCode === 0) {
             dispatch(actions.setMessage(data))
         }
-    },
-    startChatting = (userId: number): thunkType => async (dispatch) => {
-        let data = await (MessageAPI.startChatting(userId))
-        console.log(data);
     }
+    // startChatting = (userId: number): thunkType => async (dispatch) => {
+    //     let data = await (MessageAPI.startChatting(userId))
+    //     console.log(data);
+    // }
 
 export default messageReducer;

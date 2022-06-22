@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { Field, Form } from 'react-final-form'
-import { profileType } from '../../../Types/ReducersTypes';
+import { contactsType, profileType } from '../../../Types/ReducersTypes';
+//@ts-ignore
 import ProfileStyle from './Profile.module.css';
 
 type propsType = {
@@ -16,7 +17,7 @@ export const ProfileInfo: React.FC<propsType> = ({ profile, ...props }) => {
     const deactivateProfileEditMode = () => {
         setProfileEditMode(false)
     }
-    const onProfileInfoSubmit = (e) => {
+    const onProfileInfoSubmit = (e: Event) => {
         props.updateInfo(e);
         deactivateProfileEditMode()
     }
@@ -35,7 +36,7 @@ export const ProfileInfo: React.FC<propsType> = ({ profile, ...props }) => {
                                 <li
                                     className={ProfileStyle.profile__li}
                                     key={obj}>
-                                    {obj}: {profile.contacts[obj] || 'none'}
+                                    {obj}: {profile.contacts[obj as keyof contactsType] || 'none'}
                                 </li>
                             )
                         })}</ul>

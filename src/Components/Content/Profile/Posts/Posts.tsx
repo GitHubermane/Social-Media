@@ -1,7 +1,14 @@
 import React from 'react'
-import { postsPropsType } from '../../../../Types/ComponentTypes'
+//@ts-ignore
 import PostsStyle from './Posts.module.css'
 
+type postsPropsType = {
+    photo: string | null
+    id: number | null
+    key: number | null
+    likes: number | null
+    text: string | null
+}
 export const Posts: React.FC<postsPropsType> = (props) => {
   return (
       <div className={PostsStyle.post}>

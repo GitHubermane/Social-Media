@@ -1,13 +1,14 @@
 import React from 'react';
 import { Field, Form } from 'react-final-form';
 import { MessagesDataType, UserMessageDataType } from '../../../Types/ReducersTypes';
+//@ts-ignore
 import DialogsStyle from './Dialogs.module.css';
 import { Messages } from './Messages/Messages';
 import { Users } from './Users/Users';
 
 type propsType = {
-  UserMessageData: UserMessageDataType
-  messagesData: MessagesDataType
+  UserMessageData: Array<UserMessageDataType>
+  messagesData: Array<MessagesDataType>
   sendMessage: (message: string) => void
 }
 export const Dialogs: React.FC<propsType> = (props) => {

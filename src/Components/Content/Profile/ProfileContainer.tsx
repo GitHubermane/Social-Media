@@ -1,22 +1,22 @@
-import React from 'react';
+import React, { ComponentType, ReactComponentElement } from 'react';
 import { connect } from 'react-redux'
 import { compose } from 'redux';
-import { useLocation, useNavigate, useParams } from "react-router-dom";
 import {
-  addPost, getUserId,
-  getUserStatus, updateUserStatus, savePhoto,
-  updateInfo
+  actions, getUserId, getUserStatus,
+  updateUserStatus, savePhoto, updateInfo,
 } from '../../../Redux/ProfileReducer'
-import { sendMessage, startChatting } from '../../../Redux/MessageReducer'
+import { sendMessage } from '../../../Redux/MessageReducer'
 import { Profile } from './Profile';
 import {
   getId, getMessagesData, getPostData,
   getPostNewText, getProfile, getStatus
 } from '../../../Redux/Selectors';
 import { MessagesDataType, PostDataType, profileType } from '../../../Types/ReducersTypes';
+import { appStateType } from '../../../Redux/ReduxStore';
+import { withRouter } from '../../HOC/WithRouter';
 
 type mapStateToPropsType = {
-  postData: PostDataType
+  postData: Array<PostDataType>
   postNewText: string
   profile: profileType
   status: string
@@ -30,22 +30,37 @@ type mapDispatchToPropsType = {
   updateUserStatus: (status: string) => void
   savePhoto: (photo: any) => void
   updateInfo: (profileInfo: profileType) => void
-  sendMessage: (message: string) => void
+  sendMessage: (userId: number, message: string) => void
   startChatting: (userId: number) => void
 }
-
-type propsType = mapStateToPropsType & mapDispatchToPropsType
+export type routerType = {
+  router: {
+    location: {
+      hash: string
+      key: string
+      pathname: string
+      search: string
+      state: string
+    }
+    navigate: any
+    params: {
+      userId: number
+    }
+  }
+}
+type ownPropsType = routerType
+export type propsType = mapStateToPropsType & mapDispatchToPropsType & ownPropsType
 
 class ProfileAPI extends React.Component<propsType> {
   componentDidMount() {
     let userId = this.props.router.params.userId;
     this.props.getUserId(userId)
     this.props.getUserStatus(userId)
-    this.props.startChatting(userId)
+    // this.props.startChatting(userId)
   }
 
-  componentDidUpdate(prevProps) {
-    let userId = this.props.router.params.userId;
+  componentDidUpdate(prevProps: propsType) {
+    let userId: any = this.props.router.params.userId;
     if (this.props.router.params.userId != prevProps.router.params.userId) {
       this.props.getUserId(userId)
       this.props.getUserStatus(userId)
@@ -67,23 +82,7 @@ class ProfileAPI extends React.Component<propsType> {
   }
 }
 
-function withRouter(Component) {
-  function ComponentWithRouterProp(props) {
-    let location = useLocation();
-    let navigate = useNavigate();
-    let params = useParams();
-    return (
-      <Component
-        {...props}
-        router={{ location, navigate, params }}
-      />
-    );
-  }
-
-  return ComponentWithRouterProp;
-}
-
-let mapStateToProps = (state) => {
+let mapStateToProps = (state: appStateType) => {
   return {
     postData: getPostData(state),
     postNewText: getPostNewText(state),
@@ -94,11 +93,11 @@ let mapStateToProps = (state) => {
   }
 }
 
-export default compose(
+export default compose<React.ComponentType>(
   connect(mapStateToProps, {
-    addPost, getUserId, getUserStatus,
+    ...actions, getUserId, getUserStatus,
     updateUserStatus, savePhoto, updateInfo,
-    sendMessage, startChatting
+    sendMessage
   }),
   withRouter,
 )(ProfileAPI)

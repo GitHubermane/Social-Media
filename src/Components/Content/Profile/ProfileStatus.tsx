@@ -1,4 +1,5 @@
 import React, { ChangeEvent, useEffect, useState } from 'react'
+//@ts-ignore
 import ProfileStyle from './Profile.module.css';
 
 type propsType = {

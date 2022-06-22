@@ -1,8 +1,7 @@
 import React from 'react';
 import {
   follow, unfollow,
-  setUsers, setPages,
-  setTotalUsersCount, toggleIsFetching,
+  actions,
   getUsers, pageChange
 } from '../../../Redux/UsersReducer';
 import { connect } from 'react-redux';
@@ -31,7 +30,7 @@ type mapDispatchToPropsType = {
   getUsers: (currentPageNumber: number, usersCount: number) => void
   pageChange: (pageNum: number, usersCount: number) => void
 }
-type propsType = mapStateToPropsType & mapDispatchToPropsType
+export type propsType = mapStateToPropsType & mapDispatchToPropsType
 
 export class UsersWithAPIContainer extends React.Component<propsType> {
   componentDidMount() {
@@ -75,12 +74,11 @@ let mapStateToProps = (state: appStateType): mapStateToPropsType => {
   }
 }
 
-export default compose(
-  connect<mapStateToPropsType, mapDispatchToPropsType>(mapStateToProps,
+export default compose<React.ComponentType>(
+  connect(mapStateToProps,
     {
+      ...actions,
       follow, unfollow,
-      setUsers, setPages,
-      setTotalUsersCount, toggleIsFetching,
       getUsers, pageChange
     }),
   withAuthRedirect

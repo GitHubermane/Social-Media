@@ -1,5 +1,6 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom';
+//@ts-ignore
 import SidebarStyle from './Sidebar.module.css';
 
 type propsType = {

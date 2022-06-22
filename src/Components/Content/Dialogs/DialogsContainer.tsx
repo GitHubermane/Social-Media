@@ -8,8 +8,8 @@ import { MessagesDataType, UserMessageDataType } from '../../../Types/ReducersTy
 import { appStateType } from '../../../Redux/ReduxStore';
 
 type mapStateToPropsType = {
-  UserMessageData: UserMessageDataType
-  messagesData: MessagesDataType
+  UserMessageData: Array<UserMessageDataType>
+  messagesData: Array<MessagesDataType>
 }
 type mapDispatchToPropsType = {
   getDialogs: () => void
@@ -43,7 +43,7 @@ let mapStateToProps = (state: appStateType) => {
   }
 }
 
-export default compose<propsType>(
+export default compose<React.ComponentType>(
   connect(mapStateToProps, { sendMessage, getDialogs }),
   withAuthRedirect,
 )(DialogsContainer)

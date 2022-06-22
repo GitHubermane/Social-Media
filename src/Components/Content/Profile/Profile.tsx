@@ -1,5 +1,6 @@
 import React from 'react';
 import { Posts } from './Posts/Posts';
+//@ts-ignore
 import ProfileStyle from './Profile.module.css';
 import { Preloader } from '../../Commons/Preloader'
 import { ProfileStatus } from './ProfileStatus';
@@ -7,27 +8,11 @@ import { Field, Form } from 'react-final-form';
 import { required, maxLengthCreator } from '../../Utils/Validators'
 import { Input, TextArea } from '../../Commons/CraftForms';
 import { ProfileInfo } from './ProfileInfo';
-import { MessagesDataType, PostDataType, profileType } from '../../../Types/ReducersTypes';
+import { propsType, routerType } from './ProfileContainer';
 
-type propsType = {
-  postData: PostDataType
-  postNewText: string
-  profile: profileType
-  status: string
-  selfId: number
-  MessagesData: MessagesDataType
-  isOwner: boolean
-  addPost: (postText: string) => void
-  getUserId: (userId: number) => void
-  getUserStatus: (userId: number) => void
-  updateUserStatus: (status: string) => void
-  savePhoto: (photo: any) => void
-  updateInfo: (profileInfo: profileType) => void
-  sendMessage: (userId: number, message: string) => void
-  startChatting: (userId: number) => void
-}
 
-export const Profile: React.FC<propsType> = (props) => {
+type profilePropsType = propsType & { isOwner: boolean }
+export const Profile: React.FC<profilePropsType> = (props) => {
   let postElements = props.postData.map(
     post => <Posts
       photo={props.profile?
@@ -39,10 +24,18 @@ export const Profile: React.FC<propsType> = (props) => {
       likes={post.likes}
       text={post.text} />)
 
-  const onPhotoSelect = (e) => {
-    props.savePhoto(e.target.files[0]);
+
+/*   const onPhotoSelect: React.ChangeEventHandler<HTMLInputElement> = (e) => {
+    let target: HTMLInputElement| null = e.target
+    let file: FileList | null = target.files[0]
+    props.savePhoto(file);
+  } */
+
+  const onPhotoSelect = (e: any) => {
+    let file = e.target.files[0]
+    props.savePhoto(file);
   }
-  const onSendMessage = (message) => {
+  const onSendMessage = (message: string) => {
     props.sendMessage(props.profile.userId, message)
   }
   if (!props.profile) {
@@ -112,11 +105,11 @@ export const Profile: React.FC<propsType> = (props) => {
   )
 }
 
-const composeValidators = (...validators) => value =>
-  validators.reduce((error, validator) => error || validator(value), undefined)
+// const composeValidators = (...validators) => (value) =>
+//   validators.reduce((error, validator) => error || validator(value), undefined)
 
-const PostForm = (props) => {
-  let onSetPostClick = (postText) => {
+const PostForm = (props: propsType) => {
+  let onSetPostClick = (postText: { Post:string }) => {
     props.addPost(postText.Post)
     postText.Post = ''
   }
@@ -130,7 +123,7 @@ const PostForm = (props) => {
               name="Post"
               component={TextArea}
               placeholder="Post"
-              validate={composeValidators(required, maxLengthCreator(10))}
+              validate={required}
             />
           </div>
           <button

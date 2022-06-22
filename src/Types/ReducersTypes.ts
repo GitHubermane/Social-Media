@@ -9,7 +9,7 @@ export type MessagesDataType = {
 
 export type PostDataType = {
     id: number,
-    likes: number | string,
+    likes: number | null,
     text: string
 }
 export type profileType = {

@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+//@ts-ignore
 import PaginatorStyle from './Paginator.module.css'
 
 type propsType = {

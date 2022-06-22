@@ -2,9 +2,12 @@ import React from 'react'
 import { Field, Form } from 'react-final-form'
 import { connect } from 'react-redux'
 import { Navigate } from 'react-router-dom'
+import { compose } from 'redux'
 import { login, getAuth, getCaptcha } from '../../../Redux/AuthReducer'
+import { appStateType } from '../../../Redux/ReduxStore'
 import { Input } from '../../Commons/CraftForms'
 import { required } from '../../Utils/Validators'
+//@ts-ignore
 import CraftFormsStyle from './../../Commons/CraftForms.module.css'
 
 type propsType = {
@@ -13,7 +16,10 @@ type propsType = {
   getCaptcha: () => void
   id: null | number
   isAuthorised: boolean
-  login: () => void
+  login: (Login: string,
+    Password: string,
+    RememberMe: boolean,
+    Captcha: string) => void
 }
 const Login: React.FC<propsType> = (props) => {
   if (props.isAuthorised) {
@@ -30,8 +36,15 @@ const Login: React.FC<propsType> = (props) => {
     </div>
   )
 }
-const LoginForm = (props) => {
-  let onSubmit = (data) => {
+
+type onSubmitDataType = {
+  Login: string
+  Password: string
+  RememberMe: boolean
+  Captcha: string
+}
+const LoginForm = (props: propsType) => {
+  let onSubmit = (data: onSubmitDataType) => {
     props.getCaptcha()
     props.login(data.Login, data.Password, data.RememberMe, data.Captcha)
   }
@@ -88,11 +101,13 @@ const LoginForm = (props) => {
 
 }
 
-let mapStateToProps = (state) => {
+let mapStateToProps = (state: appStateType) => {
   return {
     id: state.Auth.id,
     isAuthorised: state.Auth.isAuthorised,
     captchaURL: state.Auth.captchaURL
   }
 }
-export default connect(mapStateToProps, { login, getAuth, getCaptcha })(Login)
+export default compose<React.ComponentType>(
+  connect(mapStateToProps, { login, getAuth, getCaptcha })
+  )(Login)
