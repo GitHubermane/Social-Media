@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ChangeEvent } from 'react';
 import { Posts } from './Posts/Posts';
 //@ts-ignore
 import ProfileStyle from './Profile.module.css';
@@ -15,8 +15,8 @@ type profilePropsType = propsType & { isOwner: boolean }
 export const Profile: React.FC<profilePropsType> = (props) => {
   let postElements = props.postData.map(
     post => <Posts
-      photo={props.profile?
-        props.profile.photos.large:
+      photo={props.profile ?
+        props.profile.photos.large :
         "https://flyclipart.com/thumb2/user-icon-png-pnglogocom-133466.png"
       }
       id={post.id}
@@ -25,15 +25,16 @@ export const Profile: React.FC<profilePropsType> = (props) => {
       text={post.text} />)
 
 
-/*   const onPhotoSelect: React.ChangeEventHandler<HTMLInputElement> = (e) => {
-    let target: HTMLInputElement| null = e.target
-    let file: FileList | null = target.files[0]
-    props.savePhoto(file);
-  } */
+  /*   const onPhotoSelect: React.ChangeEventHandler<HTMLInputElement> = (e) => {
+      let target: HTMLInputElement| null = e.target
+      let file: FileList | null = target.files[0]
+      props.savePhoto(file);
+    } */
 
-  const onPhotoSelect = (e: any) => {
-    let file = e.target.files[0]
-    props.savePhoto(file);
+  const onPhotoSelect = (e: ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) {
+      props.savePhoto(e.target.files[0])
+    }
   }
   const onSendMessage = (message: string) => {
     props.sendMessage(props.profile.userId, message)
@@ -52,7 +53,7 @@ export const Profile: React.FC<profilePropsType> = (props) => {
             src={!props.profile.photos.large ?
               "https://flyclipart.com/thumb2/user-icon-png-pnglogocom-133466.png" :
               props.profile.photos.large
-            }/>
+            } />
           <div className={ProfileStyle.profile__userContent}>
             <h1 className={ProfileStyle.profile__userName}>
               {props.profile.fullName}
@@ -109,7 +110,7 @@ export const Profile: React.FC<profilePropsType> = (props) => {
 //   validators.reduce((error, validator) => error || validator(value), undefined)
 
 const PostForm = (props: propsType) => {
-  let onSetPostClick = (postText: { Post:string }) => {
+  let onSetPostClick = (postText: { Post: string }) => {
     props.addPost(postText.Post)
     postText.Post = ''
   }

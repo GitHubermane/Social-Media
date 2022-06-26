@@ -1,4 +1,3 @@
-import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import App from './App';
@@ -15,7 +14,7 @@ export let _callSubscriber = () => {
 
 _callSubscriber(store.getState());
 
-store.subscribe(() => {
-    let state = store.getState(); 
-    _callSubscriber(state);
-})
+// store.subscribe(() => {
+//     let state = store.getState(); 
+//     _callSubscriber(state);
+// })

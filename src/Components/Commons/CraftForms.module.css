@@ -8,11 +8,11 @@
     background-color: red;
     color: #333;
 }
-.CraftForm__summaryEror {
+/* .CraftForm__summaryEror {
     background-color: red;
     padding: 10px 5px;
     color: #111;
-}
+} */
 .CraftForm__blockInput {
     margin: 5px 0;
 }
