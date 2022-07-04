@@ -48,3 +48,8 @@ export type setUserDataActionDataType = {
     login: string | null,
     isAuthorised?: boolean,
 }
+export type filterType = {
+    term: string,
+    friends: null | boolean
+}
+

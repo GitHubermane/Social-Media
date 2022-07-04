@@ -1,5 +1,28 @@
-.CraftForm__input {
-    border-radius: 5px;
+.CraftForm__block {
+    display: flex;
+    justify-content: space-between;
+}
+.CraftForm__info {
+    align-self: flex-start;
+    padding: 10px 5px;
+    background-color: #ddd;
+    border-radius: 10px;
+    font-weight: 500;
+}
+.CraftForm__infoTitle {
+    font-size: 20px;
+    font-weight: 600;
+}
+.CraftForm__summaryError {
+    text-align: center;
+    padding: 5px 8px;
+    margin: 10px 0;
+    border-radius: 7px;
+    background-color: rgb(255, 0, 0);
+    color: rgb(70, 0, 0);
+}
+.CraftForm__infoLogin {
+    padding: 5px 0;
 }
 .CraftForm__error {
     padding: 2px 8px;
@@ -8,11 +31,7 @@
     background-color: red;
     color: #333;
 }
-/* .CraftForm__summaryEror {
-    background-color: red;
-    padding: 10px 5px;
-    color: #111;
-} */
+
 .CraftForm__blockInput {
     margin: 5px 0;
 }

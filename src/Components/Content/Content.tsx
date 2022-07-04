@@ -8,7 +8,7 @@ import { storeType } from '../../Redux/ReduxStore';
 const ProfileContainer = React.lazy(() => import('./Profile/ProfileContainer'));
 const DialogsContainer = React.lazy(() => import('./Dialogs/DialogsContainer'));
 const UsersContainer = React.lazy(() => import('./Users/UsersContainer'));
-const Login = React.lazy(() => import('./Login/Login'));
+const Login = React.lazy(() => import('./Login/LoginContainer'));
 
 type propsType = {
   store: storeType

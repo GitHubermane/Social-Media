@@ -43,7 +43,7 @@ export const Paginator: React.FC<propsType> = ({ totalUsersCount, usersCount, cu
                         {pageNum}
                     </span>)}
 
-            {(portionNumber < portionCount) &&
+            {(portionNumber < Math.round(portionCount)) &&
                 <button
                     onClick={() => {
                         setPortionNumber(portionNumber + 1)

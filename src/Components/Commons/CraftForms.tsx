@@ -22,7 +22,7 @@ export const CraftForm: React.FC<craftFormType> = ({ input, meta, child, ...prop
         <div className={CraftFormsStyle.CraftForm__blockInput}>
             <div>
                 {props.children}
-                {hasError && <span className={CraftFormsStyle.CraftForm__error}>Error</span>}
+                {hasError && <span className={CraftFormsStyle.CraftForm__error}>This Field is required</span>}
             </div>
         </div>
     )

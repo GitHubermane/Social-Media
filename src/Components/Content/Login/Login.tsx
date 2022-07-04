@@ -1,27 +1,24 @@
 import React from 'react'
 import { Field, Form } from 'react-final-form'
-import { connect } from 'react-redux'
 import { Navigate } from 'react-router-dom'
-import { compose } from 'redux'
-import { login, getAuth, getCaptcha } from '../../../Redux/AuthReducer'
-import { appStateType } from '../../../Redux/ReduxStore'
 import { Input } from '../../Commons/CraftForms'
 import { required } from '../../Utils/Validators'
 //@ts-ignore
 import CraftFormsStyle from './../../Commons/CraftForms.module.css'
 
 type propsType = {
-  captchaURL: string
-  getAuth: () => void
-  getCaptcha: () => void
-  id: null | number
   isAuthorised: boolean
+  id: null | number
+  captchaURL: string
+  error: null | Array<string>
+  getAuth: () => void
   login: (Login: string,
     Password: string,
     RememberMe: boolean,
     Captcha: string) => void
+  getCaptcha: () => void
 }
-const Login: React.FC<propsType> = (props) => {
+export const Login: React.FC<propsType> = (props) => {
   if (props.isAuthorised) {
     return (
       <Navigate to={`/profile/${props.id}`} />
@@ -30,9 +27,21 @@ const Login: React.FC<propsType> = (props) => {
   return (
     <div>
       <h1>Login</h1>
-      <LoginForm {...props} />
-      <div className={CraftFormsStyle.CraftForm__summaryEror}>
+      <div className={CraftFormsStyle.CraftForm__block}>
+        <LoginForm {...props} />
+        <div className={CraftFormsStyle.CraftForm__info}>
+          <div className={CraftFormsStyle.CraftForm__infoTitle}>
+            Логин и пароль для гостей
+          </div>
+          <div className={CraftFormsStyle.CraftForm__infoLogin}>
+            Login: free@samuraijs.com
+          </div>
+          <div className={CraftFormsStyle.CraftForm__infoPassword}>
+            Password: free
+          </div>
+        </div>
       </div>
+
     </div>
   )
 }
@@ -70,6 +79,10 @@ const LoginForm = (props: propsType) => {
               validate={(required)}
             />
           </div>
+          {props.error &&
+            <div className={CraftFormsStyle.CraftForm__summaryError}>
+              {props.error}
+            </div>}
           <div>
             <Field
               name="RememberMe"
@@ -82,7 +95,7 @@ const LoginForm = (props: propsType) => {
               Submit
             </button>
           </div>
-
+          
           {props.captchaURL &&
             <div>
               <img src={props.captchaURL} alt="" />
@@ -100,14 +113,3 @@ const LoginForm = (props: propsType) => {
   )
 
 }
-
-let mapStateToProps = (state: appStateType) => {
-  return {
-    id: state.Auth.id,
-    isAuthorised: state.Auth.isAuthorised,
-    captchaURL: state.Auth.captchaURL
-  }
-}
-export default compose<React.ComponentType>(
-  connect(mapStateToProps, { login, getAuth, getCaptcha })
-  )(Login)

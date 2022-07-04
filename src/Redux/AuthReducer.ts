@@ -10,7 +10,8 @@ let initialState = {
     email: null as null | string,
     login: null as null | string,
     isAuthorised: false,
-    captchaURL: null as null | string
+    captchaURL: null as null | string,
+    error: null as null | Array<string>
 }
 
 const authReducer = (state = initialState, action: actionsType): initialStateType => {
@@ -29,7 +30,13 @@ const authReducer = (state = initialState, action: actionsType): initialStateTyp
                 captchaURL: action.url,
             };
         }
-            
+
+        case 'auth/SET_ERROR': {
+            return {
+                ...state,
+                error: action.error,
+            };
+        } 
         default:
             return state;
     }
@@ -45,6 +52,7 @@ export const actions = {
             type: 'auth/SET_USER_DATA',
             data: { id, email, login, isAuthorised } 
         } as const),
+    setError: (error: Array<string> | null) => ({ type: 'auth/SET_ERROR', error } as const),
     setCaptcha: (url: string | null) => ({ type: 'auth/SET_CAPTCHA', url } as const),
 }
 
@@ -62,6 +70,10 @@ export const getAuth = (): thunkType => async (dispatch) => {
         let data = await (AuthAPI.login(email, password, rememberMe, captcha))
         if (data.resultCode === resultCodeEnum.Success) {
             dispatch(getAuth())
+            dispatch(actions.setError(null))
+        }
+        if (data.resultCode === resultCodeEnum.Error) {
+            dispatch(actions.setError(data.messages))
         }
     },
     logout = (): thunkType => async (dispatch) => {
