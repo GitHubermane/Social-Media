@@ -50,6 +50,6 @@ export type setUserDataActionDataType = {
 }
 export type filterType = {
     term: string,
-    friends: null | boolean
+    friends: boolean | null
 }
 

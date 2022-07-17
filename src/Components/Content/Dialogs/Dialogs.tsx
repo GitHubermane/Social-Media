@@ -1,5 +1,7 @@
 import React from 'react';
 import { Field, Form } from 'react-final-form';
+import { useSelector } from 'react-redux';
+import { appStateType } from '../../../Redux/ReduxStore';
 import { MessagesDataType, UserMessageDataType } from '../../../Types/ReducersTypes';
 //@ts-ignore
 import DialogsStyle from './Dialogs.module.css';
@@ -7,22 +9,22 @@ import { Messages } from './Messages/Messages';
 import { Users } from './Users/Users';
 
 type propsType = {
-  UserMessageData: Array<UserMessageDataType>
-  messagesData: Array<MessagesDataType>
   sendMessage: (message: string) => void
 }
 export const Dialogs: React.FC<propsType> = (props) => {
-  let UserChatElement = props.UserMessageData.map(
+  const UserMessageData = useSelector((state: appStateType) => state.MessagesPage.UserMessageData),
+  messagesData = useSelector((state: appStateType) => state.MessagesPage.MessagesData)
+  
+  let UserChatElement = UserMessageData.map(
     dialog => <Users
       id={dialog.id}
       key={dialog.id}
-      name={dialog.name} />)
-
-  let MessagesElement = props.messagesData.map(
-    message => <Messages
-      id={message.id}
-      key={message.id}
-      text={message.text} />)
+      name={dialog.name} />),
+    MessagesElement = messagesData.map(
+      message => <Messages
+        id={message.id}
+        key={message.id}
+        text={message.text} />)
 
   return (
     <div className={DialogsStyle.dialogsBlock}>
@@ -36,7 +38,6 @@ export const Dialogs: React.FC<propsType> = (props) => {
     </div>
   )
 }
-
 
 export const MessageForm = (props: propsType) => {
   let onSendMessageClick = (messageText: any) => {

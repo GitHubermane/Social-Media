@@ -1,49 +1,47 @@
 import React from 'react'
 import { Field, Form } from 'react-final-form'
+import { useDispatch, useSelector } from 'react-redux'
 import { Navigate } from 'react-router-dom'
+import { getCaptcha, login } from '../../../Redux/AuthReducer'
+import { appStateType } from '../../../Redux/ReduxStore'
 import { Input } from '../../Commons/CraftForms'
 import { required } from '../../Utils/Validators'
 //@ts-ignore
 import CraftFormsStyle from './../../Commons/CraftForms.module.css'
 
-type propsType = {
-  isAuthorised: boolean
-  id: null | number
-  captchaURL: string
-  error: null | Array<string>
-  getAuth: () => void
-  login: (Login: string,
-    Password: string,
-    RememberMe: boolean,
-    Captcha: string) => void
-  getCaptcha: () => void
-}
-export const Login: React.FC<propsType> = (props) => {
-  if (props.isAuthorised) {
+type propsType = {}
+const Login: React.FC<propsType> = (props) => {
+  debugger
+  const isAuthorised = useSelector((state: appStateType) => state.Auth.isAuthorised),
+    id = useSelector((state: appStateType) =>  state.Auth.id)
+
+
+  if (isAuthorised) {
     return (
-      <Navigate to={`/profile/${props.id}`} />
+      <Navigate to={`/profile/${id}`} />
     )
-  }
-  return (
-    <div>
-      <h1>Login</h1>
-      <div className={CraftFormsStyle.CraftForm__block}>
-        <LoginForm {...props} />
-        <div className={CraftFormsStyle.CraftForm__info}>
-          <div className={CraftFormsStyle.CraftForm__infoTitle}>
-            Логин и пароль для гостей
-          </div>
-          <div className={CraftFormsStyle.CraftForm__infoLogin}>
-            Login: free@samuraijs.com
-          </div>
-          <div className={CraftFormsStyle.CraftForm__infoPassword}>
-            Password: free
+  } else {
+    return (
+      <div>
+        <h1>Login</h1>
+        <div className={CraftFormsStyle.CraftForm__block}>
+          <LoginForm {...props} />
+          <div className={CraftFormsStyle.CraftForm__info}>
+            <div className={CraftFormsStyle.CraftForm__infoTitle}>
+              Логин и пароль для гостей
+            </div>
+            <div className={CraftFormsStyle.CraftForm__infoLogin}>
+              Login: free@samuraijs.com
+            </div>
+            <div className={CraftFormsStyle.CraftForm__infoPassword}>
+              Password: free
+            </div>
           </div>
         </div>
-      </div>
 
-    </div>
-  )
+      </div>
+    )
+  }
 }
 
 type onSubmitDataType = {
@@ -53,9 +51,13 @@ type onSubmitDataType = {
   Captcha: string
 }
 const LoginForm = (props: propsType) => {
+
+  const captchaURL = useSelector((state: appStateType) => state.Auth.captchaURL),
+    error = useSelector((state: appStateType) => state.Auth.error),
+    dispatch = useDispatch()
   let onSubmit = (data: onSubmitDataType) => {
-    props.getCaptcha()
-    props.login(data.Login, data.Password, data.RememberMe, data.Captcha)
+    dispatch(getCaptcha())
+    dispatch(login(data.Login, data.Password, data.RememberMe, data.Captcha))
   }
   return (
     <Form
@@ -79,9 +81,9 @@ const LoginForm = (props: propsType) => {
               validate={(required)}
             />
           </div>
-          {props.error &&
+          {error &&
             <div className={CraftFormsStyle.CraftForm__summaryError}>
-              {props.error}
+              {error}
             </div>}
           <div>
             <Field
@@ -95,10 +97,10 @@ const LoginForm = (props: propsType) => {
               Submit
             </button>
           </div>
-          
-          {props.captchaURL &&
+
+          {captchaURL &&
             <div>
-              <img src={props.captchaURL} alt="" />
+              <img src={captchaURL} alt="" />
               <Field
                 name="Captcha"
                 component={Input}
@@ -113,3 +115,5 @@ const LoginForm = (props: propsType) => {
   )
 
 }
+
+export default Login

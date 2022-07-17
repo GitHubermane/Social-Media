@@ -17,33 +17,17 @@ type mapDispatchToPropsType = {
 }
 type propsType = mapStateToPropsType & mapDispatchToPropsType
 
-class DialogsContainer extends React.Component<propsType> {
-  componentDidMount() {
-    this.props.getDialogs()
-  }
-  render() {
 
-    return (
-      <Dialogs 
-        UserMessageData={this.props.UserMessageData}
-        messagesData={this.props.messagesData}
-        sendMessage={this.props.sendMessage}
-        />
-    )
-
-  }
-
-}
-
-
-let mapStateToProps = (state: appStateType) => {
-  return {
-    UserMessageData: state.MessagesPage.UserMessageData,
-    messagesData: state.MessagesPage.MessagesData,
-  }
+const DialogsContainer: React.FC<propsType> = (props) => {
+  props.getDialogs()
+  return (
+    <Dialogs
+      sendMessage={props.sendMessage}
+    />
+  )
 }
 
 export default compose<React.ComponentType>(
-  connect(mapStateToProps, { sendMessage, getDialogs }),
+  connect(null, { sendMessage, getDialogs }),
   withAuthRedirect,
 )(DialogsContainer)

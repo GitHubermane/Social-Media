@@ -8,7 +8,7 @@ type userResponseType = {
 }
 
 export const UsersAPI = {
-    getUsers(currentPageNumber: number, usersCount: number, term: string, friend: boolean) {
+    getUsers(currentPageNumber: number, usersCount: number, term: string, friend: boolean | null) {
         return instance.get<userResponseType>(`users?page=${currentPageNumber}&count=${usersCount}${term?'&term=' + term: ''}&friend=${friend}`)
             .then(response => response.data)
     },

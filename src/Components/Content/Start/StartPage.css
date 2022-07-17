@@ -1,0 +1,28 @@
+.StartPage__wrapper {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-direction: column;
+    height: 450px;
+}
+.StartPage__title {
+    text-align: center;
+    font-size: 50px;
+    font-weight: 600;
+    color: #000;
+}
+.StartPage__button {
+    font-size: 20px;
+    font-weight: 500;
+    background-color: #fff;
+    color: #111;
+    padding: 10px 25px;
+    border-radius: 10px;
+    text-decoration: none;
+    transition: all 0.5s;
+}
+.StartPage__button:hover {
+    transition: all 0.5s;
+    background-color: #111;
+    color: #fff;
+}

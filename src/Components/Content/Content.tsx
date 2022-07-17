@@ -5,10 +5,11 @@ import { Sidebar } from "../Sidebar/Sidebar";
 import { Route, Routes } from 'react-router-dom';
 import { Preloader } from '../Commons/Preloader';
 import { storeType } from '../../Redux/ReduxStore';
+import { StartPage } from './Start/StartPage';
 const ProfileContainer = React.lazy(() => import('./Profile/ProfileContainer'));
 const DialogsContainer = React.lazy(() => import('./Dialogs/DialogsContainer'));
 const UsersContainer = React.lazy(() => import('./Users/UsersContainer'));
-const Login = React.lazy(() => import('./Login/LoginContainer'));
+const Login = React.lazy(() => import('./Login/Login'));
 
 type propsType = {
   store: storeType
@@ -19,7 +20,7 @@ export const Content: React.FC<propsType> = (props) => {
     <div className={ContentStyle.content}>
       <Sidebar />
       <div className={ContentStyle.contentBlock}>
-        <Suspense fallback={<Preloader/>}>
+        <Suspense fallback={<Preloader />}>
           <Routes>
             <Route path='/profile/:userId'
               element={<ProfileContainer />}
@@ -32,6 +33,9 @@ export const Content: React.FC<propsType> = (props) => {
             />
             <Route path='/login/'
               element={<Login />}
+            />
+            <Route path='/'
+              element={<StartPage />}
             />
           </Routes>
         </Suspense>

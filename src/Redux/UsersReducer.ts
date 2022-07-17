@@ -97,7 +97,7 @@ export const actions = {
     setUsers: (users: Array<UsersDataType>) => ({ type: 'users/SET_USERS', users } as const),
     setPages: (currentPage: number) => ({ type: 'users/SET_CURRENT_PAGE', currentPage } as const),
     setTotalUsersCount: (usersCount: number) => ({ type: 'users/SET_TOTAL_USERS_COUNT', usersCount } as const),
-    setFilter: (term: string, friends: boolean) => ({ type: 'users/SET_FILTER', payload: {term, friends} } as const),
+    setFilter: (term: string, friends: boolean | null) => ({ type: 'users/SET_FILTER', payload: {term, friends} } as const),
     toggleIsFetching: (isFetching: boolean) => ({ type: 'users/TOGGLE_IS_FETCHING', isFetching } as const),
     toggleIsFollowingInProgress: (isFollowing: boolean, userId: number) => ({ type: 'users/TOGGLE_IS_FOLLOWING_IN_PROGRESS', isFollowing, userId } as const)
 }
@@ -106,7 +106,7 @@ type thunkType = baseThunkType<actionsType>
 export const getUsers = (currentPageNumber: number,
     usersCount: number,
     term: string,
-    friend: boolean): thunkType => async (dispatch) => {
+    friend: boolean | null): thunkType => async (dispatch) => {
     dispatch(actions.toggleIsFetching(true))
     let data = await (UsersAPI.getUsers(currentPageNumber, usersCount, term, friend))
     dispatch(actions.setFilter(term, friend))
@@ -117,10 +117,10 @@ export const getUsers = (currentPageNumber: number,
     pageChange = (currentPageNumber: number,
         usersCount: number,
         term: string,
-        friend: boolean): thunkType => async (dispatch) => {
+        friends: boolean | null): thunkType => async (dispatch) => {
         dispatch(actions.setPages(currentPageNumber));
         dispatch(actions.toggleIsFetching(true))
-        let data = await (UsersAPI.getUsers(currentPageNumber, usersCount, term, friend))
+        let data = await (UsersAPI.getUsers(currentPageNumber, usersCount, term, friends))
         dispatch(actions.toggleIsFetching(false))
         dispatch(actions.setUsers(data.items))
 
