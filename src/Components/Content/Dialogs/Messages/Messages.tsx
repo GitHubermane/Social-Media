@@ -9,7 +9,9 @@ type propsType = {
 export const Messages: React.FC<propsType> = (props) => {
   return (
     <div>
-      <p className={MessagesStyle.message}>{props.text}</p>
+      <p className={MessagesStyle.message}>
+        {props.text}
+        </p>
     </div>
   )
 }

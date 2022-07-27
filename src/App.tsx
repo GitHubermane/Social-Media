@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import { Component } from "react";
 //@ts-ignore
 import AppStyle from "./App.module.css"
 import { Content } from "./Components/Content/Content";
@@ -8,6 +8,9 @@ import { initializeApp } from "./Redux/AppReducer"
 import { connect } from "react-redux";
 import { Preloader } from "./Components/Commons/Preloader";
 import { appStateType, storeType } from "./Redux/ReduxStore";
+import { Breadcrumb, Layout, Menu } from 'antd';
+import { Sidebar } from "./Components/Sidebar/Sidebar";
+import Sider from "antd/lib/layout/Sider";
 
 type propsType = {
   initialized: boolean

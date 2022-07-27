@@ -10,6 +10,8 @@
     margin: 12px 0 ;
 }
 .sidebar__link {
+    display: flex;
+    align-items: center;
     text-decoration: none;
     color: #000;
     font-weight: 500;
@@ -18,4 +20,7 @@
 }
 .sidebar__link:hover {
     background-color: #fff;
+}
+.sidebar__linkName {
+    margin: 0 0 0 7px;
 }
