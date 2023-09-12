@@ -31,7 +31,13 @@
 }
 
 .messageInputBlock {
-    display: flex;
+    display: inline-flex;
+
+}
+.messageInputBlockWithError {
+    display: inline-flex;
+    border: 2px solid red;
+    border-radius: 5px;
 }
 .message__input {
     font-family: Montserrat, sans-serif;

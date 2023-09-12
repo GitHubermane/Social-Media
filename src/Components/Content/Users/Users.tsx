@@ -7,7 +7,6 @@ import { filterType } from '../../../Types/ReducersTypes';
 import { Paginator } from './Paginator/Paginator';
 import { SearchForm } from './SearchForm/SerchForm';
 import { User } from './User/User';
-import queryString from 'query-string';
 
 type propsType = {
 }
@@ -40,7 +39,6 @@ export const Users: React.FC<propsType> = (props) => {
   useEffect(() => {
     let actualPage = currentPageNumber,
     actualFilter = filter
-    
     if (serachParams.get('page')) actualPage = Number(serachParams.get('page'))
     if (serachParams.get('term')) actualFilter = { ...actualFilter, term: String(serachParams.get('term')) }
     switch (serachParams.get('friends')) {

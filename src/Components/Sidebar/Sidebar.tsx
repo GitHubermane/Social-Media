@@ -20,7 +20,7 @@ export const Sidebar: React.FC<propsType> = (props) => {
 
           <li className={SidebarStyle.sidebar__li}>
             <NavLink className={SidebarStyle.sidebar__link} to="/messages">
-              <MailOutlined /><span className={SidebarStyle.sidebar__linkName}>Messages</span>
+              <MailOutlined /><span className={SidebarStyle.sidebar__linkName}>Chat</span>
             </NavLink>
           </li>
 

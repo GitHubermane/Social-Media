@@ -143,7 +143,4 @@ export const getUsers = (currentPageNumber: number,
 
     }
 
-
-
-
 export default usersReducer;

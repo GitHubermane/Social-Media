@@ -1,14 +1,13 @@
+import { Field, Form, Formik } from 'formik';
 import React, { useEffect, useState } from 'react';
-import { Field, Form } from 'react-final-form';
+import { } from 'react-final-form';
 import { useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import { appStateType } from '../../../Redux/ReduxStore';
-import { MessagesDataType, UserMessageDataType } from '../../../Types/ReducersTypes';
 import { Preloader } from '../../Commons/Preloader';
+import { required } from '../../Utils/Validators';
 //@ts-ignore
 import DialogsStyle from './Dialogs.module.css';
-import { Messages } from './Messages/Messages';
-import { Users } from './Users/Users';
 
 type propsType = {
   sendMessage: (message: string) => void
@@ -20,19 +19,15 @@ type messageType = {
   userName: string
 }
 export const Dialogs: React.FC<propsType> = (props) => {
-  const ws = new WebSocket('wss://social-network.samuraijs.com/handlers/ChatHandler.ashx')
-  const UserMessageData = useSelector((state: appStateType) => state.MessagesPage.UserMessageData),
-    messagesData = useSelector((state: appStateType) => state.MessagesPage.MessagesData)
+  const wsChannel = new WebSocket('wss://social-network.samuraijs.com/handlers/ChatHandler.ashx')
 
   const [isFetching, setFetching] = useState<boolean>(true)
-  const [messages, setMessages] = useState<messageType[]>([]) // Создай и вставь сюда тип
+  const [messages, setMessages] = useState<messageType[]>([])
 
   useEffect(() => {
     setFetching(true)
-    ws.addEventListener('message', (e) => {
+    wsChannel.addEventListener('message', (e) => {
       setMessages((prevMessages) => [...prevMessages, ...JSON.parse(e.data)])
-      console.log(JSON.parse(e.data));
-      console.log(messages);
     })
     setFetching(false)
   },
@@ -75,12 +70,80 @@ export const Dialogs: React.FC<propsType> = (props) => {
 }
 
 export const MessageForm = (props: propsType) => {
-  let onSendMessageClick = (messageText: any) => {
-    props.sendMessage(messageText.Message)
-    messageText.Message = ''
+  const wsChannel = new WebSocket('wss://social-network.samuraijs.com/handlers/ChatHandler.ashx')
+
+
+  // const sleep = (ms: any) => new Promise(resolve => setTimeout(resolve, ms));
+
+  // const validate = (
+  //   values: any /* only available when using withFormik */
+  // ) => {
+  //   return sleep(2000).then(() => {
+  //     let errors: any = {};
+  //     if (!values.message) {
+  //       errors.message = 'Required';
+  //     }
+  //     if (Object.keys(errors).length) {
+  //       throw errors;
+  //     }
+  //   });
+  // };
+
+
+
+  // const validate = (values: initialValuesType) => {
+  //   const errors = {
+  //     message: ''
+  //   };
+  //   if (!values.message) {
+  //     errors.message = 'Required';
+  //     return errors;
+  //   }
+  // };
+
+
+  let onSendMessageClick = (values: initialValuesType) => {
+
+    wsChannel.send(values.message)
+    props.sendMessage(values.message)
+    values.message = ''
   }
-  return (
-    <Form
+  type initialValuesType = typeof initialValues
+  const initialValues = {
+    message: ''
+  }
+  return (<>
+    <Formik
+      // validate={validate}
+      initialValues={initialValues}
+      enableReinitialize
+      onSubmit={onSendMessageClick}
+    >
+      {({ errors, touched }) => (
+        <Form
+          className={`${errors.message && touched.message ?
+            DialogsStyle.messageInputBlock && DialogsStyle.messageInputBlockWithError :
+            DialogsStyle.messageInputBlock}`}
+        >
+
+          <Field
+            className={DialogsStyle.message__input}
+            type="text"
+            name="message"
+            placeholder="Enter text"
+          />
+
+          <button
+            className={DialogsStyle.message__button}
+            type='submit'
+          >
+            <img src="https://www.seekpng.com/png/full/51-512819_png-file-svg-whatsapp-send-icon-png.png" alt="" />
+          </button>
+
+        </Form>
+      )}
+    </Formik>
+    {/* <Form
       onSubmit={onSendMessageClick}>
       {({ handleSubmit }) => (
         <form
@@ -101,6 +164,6 @@ export const MessageForm = (props: propsType) => {
           </button>
         </form>
       )}
-    </Form>
-  )
+    </Form> */}
+  </>)
 }

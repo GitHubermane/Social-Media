@@ -1,4 +1,4 @@
-import React, { ComponentType, ReactComponentElement } from 'react';
+import React from 'react';
 import { connect } from 'react-redux'
 import { compose } from 'redux';
 import {
@@ -49,6 +49,7 @@ export type routerType = {
   }
 }
 type ownPropsType = routerType
+
 export type propsType = mapStateToPropsType & mapDispatchToPropsType & ownPropsType
 
 class ProfileAPI extends React.Component<propsType> {

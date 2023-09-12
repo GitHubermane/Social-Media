@@ -8,14 +8,14 @@ type propsType = {
   isOwner: boolean
 }
 export const ProfileStatus: React.FC<propsType> = (props) => {
-  let [editMode, setEitMode] = useState(false),
+  let [editMode, setEditMode] = useState(false),
     [status, setStatus] = useState(props.status)
 
   const activate = () => {
-    setEitMode(true)
+    setEditMode(true)
   }
   const deactivate = () => {
-    setEitMode(false)
+    setEditMode(false)
     props.updateUserStatus(status)
   }
   const onStatusChange = (e: ChangeEvent<HTMLInputElement>) => {

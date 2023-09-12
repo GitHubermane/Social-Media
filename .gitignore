@@ -11,16 +11,6 @@
 #yarn
 yarn.lock
 
-#tsconfig
-tsconfig.json
-
-#json
-package-lock.json
-package.json
-
-#ReadMe 
-README.md
-
 # production
 build
 
