@@ -1,25 +1,24 @@
-import React from 'react'
-import { Field, Form } from 'react-final-form'
-import { useDispatch, useSelector } from 'react-redux'
-import { Navigate } from 'react-router-dom'
-import { getCaptcha, login } from '../../../Redux/AuthReducer'
-import { appStateType } from '../../../Redux/ReduxStore'
-import { Input } from '../../Commons/CraftForms'
-import { required } from '../../Utils/Validators'
+import React from "react"
+import { Field, Form } from "react-final-form"
+import { useDispatch, useSelector } from "react-redux"
+import { Navigate } from "react-router-dom"
+import { getCaptcha, login } from "../../../Store/AuthReducer"
+import { appStateType } from "../../../Store/ReduxStore"
+import { Input } from "../../Commons/CraftForms"
+import { required } from "../../Utils/Validators"
 //@ts-ignore
-import CraftFormsStyle from './../../Commons/CraftForms.module.css'
+import CraftFormsStyle from "./../../Commons/CraftForms.module.css"
 
 type propsType = {}
 const Login: React.FC<propsType> = (props) => {
   debugger
-  const isAuthorised = useSelector((state: appStateType) => state.Auth.isAuthorised),
-    id = useSelector((state: appStateType) =>  state.Auth.id)
-
+  const isAuthorised = useSelector(
+      (state: appStateType) => state.Auth.isAuthorised
+    ),
+    id = useSelector((state: appStateType) => state.Auth.id)
 
   if (isAuthorised) {
-    return (
-      <Navigate to={`/profile/${id}`} />
-    )
+    return <Navigate to={`/profile/${id}`} />
   } else {
     return (
       <div>
@@ -38,7 +37,6 @@ const Login: React.FC<propsType> = (props) => {
             </div>
           </div>
         </div>
-
       </div>
     )
   }
@@ -51,8 +49,9 @@ type onSubmitDataType = {
   Captcha: string
 }
 const LoginForm = (props: propsType) => {
-
-  const captchaURL = useSelector((state: appStateType) => state.Auth.captchaURL),
+  const captchaURL = useSelector(
+      (state: appStateType) => state.Auth.captchaURL
+    ),
     error = useSelector((state: appStateType) => state.Auth.error),
     dispatch = useDispatch()
   let onSubmit = (data: onSubmitDataType) => {
@@ -60,8 +59,7 @@ const LoginForm = (props: propsType) => {
     dispatch(login(data.Login, data.Password, data.RememberMe, data.Captcha))
   }
   return (
-    <Form
-      onSubmit={onSubmit}>
+    <Form onSubmit={onSubmit}>
       {({ handleSubmit }) => (
         <form onSubmit={handleSubmit}>
           <div>
@@ -69,7 +67,7 @@ const LoginForm = (props: propsType) => {
               name="Login"
               component={Input}
               placeholder="Login"
-              validate={(required)}
+              validate={required}
             />
           </div>
           <div>
@@ -77,43 +75,45 @@ const LoginForm = (props: propsType) => {
               name="Password"
               component={Input}
               placeholder="Password"
-              type='password'
-              validate={(required)}
+              type="password"
+              validate={required}
             />
           </div>
-          {error &&
+          {error && (
             <div className={CraftFormsStyle.CraftForm__summaryError}>
               {error}
-            </div>}
+            </div>
+          )}
           <div>
             <Field
               name="RememberMe"
               component="input"
               type="checkbox"
-            />Remember Me
+            />
+            Remember Me
           </div>
           <div>
-            <button type='submit'>
-              Submit
-            </button>
+            <button type="submit">Submit</button>
           </div>
 
-          {captchaURL &&
+          {captchaURL && (
             <div>
-              <img src={captchaURL} alt="" />
+              <img
+                src={captchaURL}
+                alt=""
+              />
               <Field
                 name="Captcha"
                 component={Input}
                 placeholder="Captcha"
-                validate={(required)}
+                validate={required}
               />
             </div>
-          }
+          )}
         </form>
       )}
     </Form>
   )
-
 }
 
 export default Login

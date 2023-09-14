@@ -1,19 +1,31 @@
-import React from 'react';
-import { connect } from 'react-redux'
-import { compose } from 'redux';
+import React from "react"
+import { connect } from "react-redux"
+import { compose } from "redux"
 import {
-  actions, getUserId, getUserStatus,
-  updateUserStatus, savePhoto, updateInfo,
-} from '../../../Redux/ProfileReducer'
-import { sendMessage } from '../../../Redux/MessageReducer'
-import { Profile } from './Profile';
+  actions,
+  getUserId,
+  getUserStatus,
+  updateUserStatus,
+  savePhoto,
+  updateInfo,
+} from "../../../Store/ProfileReducer"
+import { sendMessage } from "../../../Store/MessageReducer"
+import { Profile } from "./Profile"
 import {
-  getId, getMessagesData, getPostData,
-  getPostNewText, getProfile, getStatus
-} from '../../../Redux/Selectors';
-import { MessagesDataType, PostDataType, profileType } from '../../../Types/ReducersTypes';
-import { appStateType } from '../../../Redux/ReduxStore';
-import { withRouter } from '../../HOC/WithRouter';
+  getId,
+  getMessagesData,
+  getPostData,
+  getPostNewText,
+  getProfile,
+  getStatus,
+} from "../../../Store/Selectors"
+import {
+  MessagesDataType,
+  PostDataType,
+  profileType,
+} from "../../../Types/ReducersTypes"
+import { appStateType } from "../../../Store/ReduxStore"
+import { withRouter } from "../../HOC/WithRouter"
 
 type mapStateToPropsType = {
   postData: Array<PostDataType>
@@ -50,18 +62,20 @@ export type routerType = {
 }
 type ownPropsType = routerType
 
-export type propsType = mapStateToPropsType & mapDispatchToPropsType & ownPropsType
+export type propsType = mapStateToPropsType &
+  mapDispatchToPropsType &
+  ownPropsType
 
 class ProfileAPI extends React.Component<propsType> {
   componentDidMount() {
-    let userId = this.props.router.params.userId;
+    let userId = this.props.router.params.userId
     this.props.getUserId(userId)
     this.props.getUserStatus(userId)
     // this.props.startChatting(userId)
   }
 
   componentDidUpdate(prevProps: propsType) {
-    let userId: any = this.props.router.params.userId;
+    let userId: any = this.props.router.params.userId
     if (this.props.router.params.userId != prevProps.router.params.userId) {
       this.props.getUserId(userId)
       this.props.getUserStatus(userId)
@@ -78,7 +92,8 @@ class ProfileAPI extends React.Component<propsType> {
         savePhoto={this.props.savePhoto}
         updateInfo={this.props.updateInfo}
         MessagesData={this.props.MessagesData}
-        sendMessage={this.props.sendMessage} />
+        sendMessage={this.props.sendMessage}
+      />
     )
   }
 }
@@ -90,16 +105,19 @@ let mapStateToProps = (state: appStateType) => {
     profile: getProfile(state),
     status: getStatus(state),
     selfId: getId(state),
-    MessagesData: getMessagesData(state)
+    MessagesData: getMessagesData(state),
   }
 }
 
 export default compose<React.ComponentType>(
   connect(mapStateToProps, {
-    ...actions, getUserId, getUserStatus,
-    updateUserStatus, savePhoto, updateInfo,
-    sendMessage
+    ...actions,
+    getUserId,
+    getUserStatus,
+    updateUserStatus,
+    savePhoto,
+    updateInfo,
+    sendMessage,
   }),
-  withRouter,
+  withRouter
 )(ProfileAPI)
-
