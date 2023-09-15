@@ -2,7 +2,6 @@ import React, { Suspense } from "react"
 //@ts-ignore
 import ContentStyle from "./Content.module.css"
 import { Sidebar } from "../Sidebar/Sidebar"
-import { Route, Routes } from "react-router-dom"
 import { Preloader } from "../Commons/Preloader"
 import { storeType } from "../../Store/ReduxStore"
 import { Navigation } from "../../Navigation"
